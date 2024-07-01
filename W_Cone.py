@@ -133,7 +133,7 @@ class Make_WCone(bpy.types.Operator):
     bl_options = {'UNDO', 'REGISTER'}
 
     radius_top: FloatProperty(
-        name = "Radius top",
+        name = "Top Radius",
         description = "Top Radius",
         default = 0.0,
         min = 0.0,
@@ -144,7 +144,7 @@ class Make_WCone(bpy.types.Operator):
     )
 
     radius_main: FloatProperty(
-        name = "Radius bottom",
+        name = "Bottom Radius",
         description = "Bottom Radius",
         default = 1.0,
         min = 0.0,
@@ -247,14 +247,16 @@ def draw_WCone_panel(self, context):
     lay_out.label(text="Type: wCone", icon='MESH_CONE')
 
     col = lay_out.column(align=True)
-    col.prop(WData, "rad_2", text="Radius Top")
-    col.prop(WData, "rad_1", text="Radius Main")
+    col.prop(WData, "rad_2", text="Top Radius")
+    col.prop(WData, "rad_1", text="Bottom Radius")
+
+    col = lay_out.column(align=True)
     col.prop(WData, "siz_z", text="Height")
     
     col = lay_out.column(align=True)
-    col.prop(WData, "seg_1", text="Segmentation Main")
-    col.prop(WData, "seg_2", text="Vertical")
-    col.prop(WData, "seg_3", text="Caps")
+    col.prop(WData, "seg_1", text="Perim Segments")
+    col.prop(WData, "seg_2", text="Height Segments")
+    col.prop(WData, "seg_3", text="Radius Segments")
 
     lay_out.prop(WData, "cent", text="Centered")
     lay_out.prop(WData, "smo", text="Smooth Shading")

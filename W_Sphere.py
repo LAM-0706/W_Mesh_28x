@@ -28,9 +28,9 @@ from .addon import is_41
 
 
 def primitive_UVSphere(
-                radius = 1.0,
-                segments = 24,
-                rings = 12):
+    radius = 1.0,
+    segments = 24,
+    rings = 12):
 
     verts = []
     edges = []
@@ -82,10 +82,10 @@ def primitive_UVSphere(
 
 
 def primitive_polySphere(
-                    base = "CUBE",
-                    radius = 1.0,
-                    divisions = 2,
-                    tris = True):
+    base = "CUBE",
+    radius = 1.0,
+    divisions = 2,
+    tris = True):
 
     verts, edges, faces = baseHedron(base)
 
@@ -107,7 +107,7 @@ def primitive_polySphere(
     return verts, edges, faces
 
 
-def update_WSphere (wData):
+def update_WSphere(wData):
     if wData.sBase == "UV":
         return primitive_UVSphere(
             radius = wData.rad_1,
@@ -121,10 +121,9 @@ def update_WSphere (wData):
             divisions = wData.seg_3,
             tris = wData.inn
         )
-        
-    
 
-# add object W_Plane
+
+# add object WSphere
 class Make_WSphere(bpy.types.Operator):
     """Create primitive wSphere"""
     bl_idname = "mesh.make_wsphere"
@@ -193,13 +192,13 @@ class Make_WSphere(bpy.types.Operator):
     )
 
     tris: BoolProperty(
-        name="Tris",
-        description="Triangulate divisions",
-        default=False
+        name = "Triangulate",
+        description = "Triangulate divisions",
+        default = False
     )
 
-    def execute(self, context):
 
+    def execute(self, context):
         mesh = bpy.data.meshes.new("wSphere")
 
         wD = mesh.wData
@@ -215,7 +214,7 @@ class Make_WSphere(bpy.types.Operator):
 
         mesh.from_pydata(*update_WSphere(wD))
         mesh.update()
-        
+
         object_utils.object_data_add(context, mesh, operator=None)
 
         if self.smoothed:
@@ -228,6 +227,27 @@ class Make_WSphere(bpy.types.Operator):
 
         return {'FINISHED'}
 
+    # redraw object WSphere
+    def draw(self, context):
+        layout = self.layout
+        WData = context.object.data.wData
+
+        layout.prop(self, "base")
+        layout.prop(self, "radius")
+
+        if WData.sBase == "UV":
+            layout.prop(self, "segments")
+            layout.prop(self, "rings")
+
+        elif WData.sBase == "CUBE":
+            layout.prop(self, "divisions")
+        
+        else:
+            layout.prop(self, "divisions")
+            layout.prop(self, "tris")
+
+        layout.prop(self, "smoothed")
+
 # create UI panel
 def draw_WSphere_panel(self, context):
     lay_out = self.layout
@@ -236,13 +256,17 @@ def draw_WSphere_panel(self, context):
 
     lay_out.label(text="Type: wSphere", icon='MESH_UVSPHERE')
 
-    lay_out.prop(WData, "rad_1", text="Radius")
     lay_out.prop(WData, "sBase", text="Topology")
+    lay_out.prop(WData, "rad_1", text="Radius")
+    
 
     if WData.sBase == "UV":
         col = lay_out.column(align=True)
         col.prop(WData, "seg_1", text="Segments")
         col.prop(WData, "seg_2", text="Rings")
+    
+    elif WData.sBase == "CUBE":
+        lay_out.prop(WData, "seg_3", text="Divisions")
     
     else:
         lay_out.prop(WData, "seg_3", text="Divisions")
@@ -252,10 +276,10 @@ def draw_WSphere_panel(self, context):
     lay_out.prop(WData, "smo", text="Smooth Shading")
     lay_out.prop(WData, "anim", text="Animated")
 
-
 # register
 def reg_wSphere():
     bpy.utils.register_class(Make_WSphere)
+
 # unregister
 def unreg_wSphere():
     bpy.utils.unregister_class(Make_WSphere)

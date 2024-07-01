@@ -258,7 +258,7 @@ class Make_WTube(bpy.types.Operator):
     bl_options = {'UNDO', 'REGISTER'}
 
     radius_out: FloatProperty(
-        name="Outer",
+        name="Outer radius",
         description="Outer radius",
         default=1.0,
         min=0.0,
@@ -268,13 +268,19 @@ class Make_WTube(bpy.types.Operator):
     )
 
     radius_in: FloatProperty(
-        name="Inner",
+        name="Inner radius",
         description="Inner radius",
         default=0.0,
         min=0.0,
         soft_min=0.0,
         step=1,
         unit='LENGTH'
+    )
+
+    use_inner: BoolProperty(
+        name="Use inner radius",
+        description="use inner radius",
+        default=True
     )
 
     height: FloatProperty(
@@ -287,14 +293,8 @@ class Make_WTube(bpy.types.Operator):
         unit='LENGTH'
     )
 
-    use_inner: BoolProperty(
-        name="Use inner",
-        description="use inner radius",
-        default=True
-    )
-
     seg_perimeter: IntProperty(
-        name="Perimeter",
+        name="Perim Segments",
         description="Periimeter segmentation",
         default=24,
         min=3,
@@ -303,7 +303,7 @@ class Make_WTube(bpy.types.Operator):
     )
 
     seg_radius: IntProperty(
-        name="Radius",
+        name="Radius Segments",
         description="Radius segmentation",
         default=1,
         min=1,
@@ -312,7 +312,7 @@ class Make_WTube(bpy.types.Operator):
     )
 
     seg_height: IntProperty(
-        name="Height",
+        name="Height Segments",
         description="Height segmentation",
         default=1,
         min=1,
@@ -321,8 +321,8 @@ class Make_WTube(bpy.types.Operator):
     )
 
     sector_from: FloatProperty(
-        name="From",
-        description="Section of the cylinder",
+        name="Start angle",
+        description="Start angle",
         default=0.0,
         min=0.0,
         max=2 * pi,
@@ -333,8 +333,8 @@ class Make_WTube(bpy.types.Operator):
     )
 
     sector_to: FloatProperty(
-        name="To",
-        description="Section of the cylinder",
+        name="End angle",
+        description="Start angle",
         default=2 * pi,
         min=0.0,
         max=2 * pi,
@@ -399,21 +399,22 @@ def draw_WTube_panel(self, context):
     lay_out.label(text="Type: wTube", icon='MESH_CYLINDER')
 
     col = lay_out.column(align=True)
-    col.prop(WData, "rad_1", text="Radius Main")
-    col.prop(WData, "rad_2", text="Inner")
+    col.prop(WData, "rad_1", text="Outer radius")
+    col.prop(WData, "rad_2", text="Inner radius")
+    
+    lay_out.prop(WData, "inn", text="Use inner radius")
 
     lay_out.prop(WData, "siz_z", text="Height")
-
-    col = lay_out.column(align=True)
-    col.prop(WData, "sec_f", text="Section From")
-    col.prop(WData, "sec_t", text="To")
     
     col = lay_out.column(align=True)
-    col.prop(WData, "seg_1", text="Segmentation Main")
-    col.prop(WData, "seg_2", text="Cap")
-    col.prop(WData, "seg_3", text="Height")
+    col.prop(WData, "seg_1", text="Perim Segments")
+    col.prop(WData, "seg_2", text="Radius Segments")
+    col.prop(WData, "seg_3", text="Height Segments")
 
-    lay_out.prop(WData, "inn", text="Use inner radius")
+    col = lay_out.column(align=True)
+    col.prop(WData, "sec_f", text="Start angle")
+    col.prop(WData, "sec_t", text="End angle")
+
     lay_out.prop(WData, "cent", text="Centered")
     lay_out.prop(WData, "smo", text="Smooth Shading")
     lay_out.prop(WData, "anim", text="Animated")

@@ -69,7 +69,7 @@ class Make_WPlane(bpy.types.Operator):
     bl_options = {'UNDO', 'REGISTER'}
 
     size_x: FloatProperty(
-        name = "Width (X)",
+        name = "Size X",
         description = "Size of the wPlane",
         default = 2.0,
         min = 0.0,
@@ -79,7 +79,7 @@ class Make_WPlane(bpy.types.Operator):
     )
 
     size_y: FloatProperty(
-        name = "Length (Y)",
+        name = "Y",
         description = "Size of the wPlane",
         default = 2.0,
         min = 0.0,
@@ -98,7 +98,7 @@ class Make_WPlane(bpy.types.Operator):
     )
 
     seg_y: IntProperty(
-        name = "Segments Y",
+        name = "Y",
         description = "Segmentation of the wPlane",
         default = 1,
         min = 1,
@@ -131,6 +131,7 @@ class Make_WPlane(bpy.types.Operator):
         wD.cent = self.centered
         wD.wType = 'WPLANE'
         return {'FINISHED'}
+
 # create UI panel
 def draw_wPlane_panel(self, context):
     lay_out = self.layout
@@ -144,7 +145,7 @@ def draw_wPlane_panel(self, context):
     col.prop(WData, "siz_y", text="Y")
     
     col = lay_out.column(align=True)
-    col.prop(WData, "seg_1", text="Segmentation X")
+    col.prop(WData, "seg_1", text="Segments X")
     col.prop(WData, "seg_2", text="Y")
 
     lay_out.prop(WData, "cent", text="Centered")

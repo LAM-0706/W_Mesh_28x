@@ -246,9 +246,9 @@ def draw_WCapsule_panel(self, context):
     col.prop(WData, "siz_z", text="Height")
     
     col = lay_out.column(align=True)
-    col.prop(WData, "seg_1", text="Segmentation Main")
-    col.prop(WData, "seg_2", text="Vertical")
-    col.prop(WData, "seg_3", text="Caps")
+    col.prop(WData, "seg_1", text="Perim Segments")
+    col.prop(WData, "seg_2", text="Height Segments")
+    col.prop(WData, "seg_3", text="Caps Segments")
 
     lay_out.prop(WData, "cent", text="Centered")
     lay_out.prop(WData, "smo", text="Smooth Shading")

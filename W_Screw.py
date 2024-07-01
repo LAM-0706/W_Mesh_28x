@@ -219,6 +219,37 @@ class Make_WScrew(bpy.types.Operator):
     bl_label = "wScrew"
     bl_options = {'UNDO', 'REGISTER'}
 
+    radius_1: FloatProperty(
+        name="Major radius",
+        description="Major radius",
+        default=0.5,
+        min=0.0,
+        soft_min=0.0,
+        step=1,
+        unit='LENGTH'
+    )
+
+    radius_2: FloatProperty(
+        name="Minor radius",
+        description="Minor radius",
+        default=0.6,
+        min=0.0,
+        soft_min=0.0,
+        step=1,
+        unit='LENGTH'
+    )
+
+    height: FloatProperty(
+        name="Height",
+        description="Height of the screw",
+        default=2.0,
+        min=0.0,
+        soft_min=0.0,
+        step=1,
+        precision=2,
+        unit='LENGTH'
+    )
+
     rounds: IntProperty(
         name="Rounds",
         description="Iterations of the screw",
@@ -233,37 +264,6 @@ class Make_WScrew(bpy.types.Operator):
         default=12,
         min=3,
         soft_min=3
-    )
-
-    height: FloatProperty(
-        name="Height",
-        description="Height of the screw",
-        default=2.0,
-        min=0.0,
-        soft_min=0.0,
-        step=1,
-        precision=2,
-        unit='LENGTH'
-    )
-
-    radius_1: FloatProperty(
-        name="Major",
-        description="Major radius",
-        default=0.5,
-        min=0.0,
-        soft_min=0.0,
-        step=1,
-        unit='LENGTH'
-    )
-
-    radius_2: FloatProperty(
-        name="Minor",
-        description="Minor radius",
-        default=0.6,
-        min=0.0,
-        soft_min=0.0,
-        step=1,
-        unit='LENGTH'
     )
 
     smoothed: BoolProperty(
@@ -310,8 +310,8 @@ def draw_WScrew_panel(self, context):
     lay_out.label(text="Type: wScrew", icon='MOD_SCREW')
 
     col = lay_out.column(align=True)
-    col.prop(WData, "rad_1", text="Radius Main")
-    col.prop(WData, "rad_2", text="Inner")
+    col.prop(WData, "rad_1", text="Major radius")
+    col.prop(WData, "rad_2", text="Minor radius")
 
     lay_out.prop(WData, "siz_z", text="Height")
     

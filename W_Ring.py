@@ -120,7 +120,7 @@ class Make_WRing(bpy.types.Operator):
     bl_options = {'UNDO', 'REGISTER'}
 
     radius_out: FloatProperty(
-        name="Outer",
+        name="Outer radius",
         description="Outer radius",
         default=1.0,
         min=0.0,
@@ -129,14 +129,8 @@ class Make_WRing(bpy.types.Operator):
         unit='LENGTH'
     )
 
-    use_inner: BoolProperty(
-        name="Use inner",
-        description="use inner radius",
-        default=True
-    )
-
     radius_in: FloatProperty(
-        name="Inner",
+        name="Inner radius",
         description="Inner radius",
         default=0.0,
         min=0.0,
@@ -145,8 +139,14 @@ class Make_WRing(bpy.types.Operator):
         unit='LENGTH'
     )
 
+    use_inner: BoolProperty(
+        name="Use inner radius",
+        description="use inner radius",
+        default=True
+    )
+
     seg_perimeter: IntProperty(
-        name="Perimeter",
+        name="Perim Segments",
         description="Subdivision of the perimeter",
         default=24,
         min=3,
@@ -155,7 +155,7 @@ class Make_WRing(bpy.types.Operator):
         )
 
     seg_radius: IntProperty(
-        name="Radius",
+        name="Radius Segments",
         description="Subdivision of the radius",
         default=1,
         min=1,
@@ -164,8 +164,8 @@ class Make_WRing(bpy.types.Operator):
         )
 
     sector_from: FloatProperty(
-        name="From",
-        description="Sector from",
+        name="Start angle",
+        description="Start angle",
         default=0.0,
         min=0.0,
         soft_min=0.0,
@@ -176,8 +176,8 @@ class Make_WRing(bpy.types.Operator):
     )
 
     sector_to: FloatProperty(
-        name="To",
-        description="Sector to",
+        name="End angle",
+        description="End angle",
         default=2 * pi,
         min=0.0,
         soft_min=0.0,
@@ -224,18 +224,19 @@ def draw_WRing_panel(self, context):
     lay_out.label(text="Type: wRing", icon='MESH_CIRCLE')
 
     col = lay_out.column(align=True)
-    col.prop(WData, "rad_1", text="Radius Main")
-    col.prop(WData, "rad_2", text="Inner")
-
-    col = lay_out.column(align=True)
-    col.prop(WData, "sec_f", text="Section From")
-    col.prop(WData, "sec_t", text="To")
-    
-    col = lay_out.column(align=True)
-    col.prop(WData, "seg_1", text="Segmentation Main")
-    col.prop(WData, "seg_2", text="Cap")
+    col.prop(WData, "rad_1", text="Outer radius")
+    col.prop(WData, "rad_2", text="Inner radius")
 
     lay_out.prop(WData, "inn", text="Use inner radius")
+    
+    col = lay_out.column(align=True)
+    col.prop(WData, "seg_1", text="Perim Segments")
+    col.prop(WData, "seg_2", text="Radius Segments")
+
+    col = lay_out.column(align=True)
+    col.prop(WData, "sec_f", text="Start angle")
+    col.prop(WData, "sec_t", text="End angle")
+
     lay_out.prop(WData, "anim", text="Animated")
 
 

@@ -108,8 +108,8 @@ class Make_WTorus(bpy.types.Operator):
     bl_options = {'UNDO', 'REGISTER'}
 
     radius_main: FloatProperty(
-        name = "Major",
-        description = "Main Radius",
+        name = "Major Radius",
+        description = "Major Radius",
         default = 1.0,
         min = 0.0,
         soft_min = 0.0,
@@ -118,7 +118,7 @@ class Make_WTorus(bpy.types.Operator):
     )
 
     radius_minor: FloatProperty(
-        name = "Minor",
+        name = "Minor Radius",
         description = "Minor Radius",
         default = 0.5,
         min = 0.0,
@@ -128,7 +128,7 @@ class Make_WTorus(bpy.types.Operator):
     )
 
     seg_main: IntProperty(
-        name = "Main",
+        name = "Major Segments",
         description = "Segmentation on main perimeter",
         default = 24,
         min = 3,
@@ -138,7 +138,7 @@ class Make_WTorus(bpy.types.Operator):
     )
 
     seg_minor: IntProperty(
-        name = "Minor",
+        name = "Minor Segments",
         description = "Segmentation of the minor perimeter",
         default = 12,
         min = 3,
@@ -148,8 +148,8 @@ class Make_WTorus(bpy.types.Operator):
     )
 
     sec_from: FloatProperty(
-        name = "From",
-        description = "Start angle of the section",
+        name = "Start angle",
+        description = "Start angle",
         default = 0.0,
         min = 0.0,
         max = 2 * PI,
@@ -160,8 +160,8 @@ class Make_WTorus(bpy.types.Operator):
     )
 
     sec_to: FloatProperty(
-        name = "To",
-        description = "End angle of the section",
+        name = "End angle",
+        description = "End angle",
         default = 2 * PI,
         min = 0.0,
         max = 2 * PI,
@@ -216,16 +216,16 @@ def draw_WTorus_panel(self, context):
     lay_out.label(text="Type: wTorus", icon='MESH_TORUS')
 
     col = lay_out.column(align=True)
-    col.prop(WData, "rad_1", text="Radius Main")
-    col.prop(WData, "rad_2", text="Minor")
+    col.prop(WData, "rad_1", text="Major Radius")
+    col.prop(WData, "rad_2", text="Minor Radius")
 
     col = lay_out.column(align=True)
-    col.prop(WData, "sec_f", text="Section From")
-    col.prop(WData, "sec_t", text="To")
+    col.prop(WData, "sec_f", text="Start angle")
+    col.prop(WData, "sec_t", text="End angle")
     
     col = lay_out.column(align=True)
-    col.prop(WData, "seg_1", text="Segmentation Main")
-    col.prop(WData, "seg_2", text="Minor")
+    col.prop(WData, "seg_1", text="Major Segments")
+    col.prop(WData, "seg_2", text="Minor Segments")
 
     lay_out.prop(WData, "smo", text="Smooth Shading")
     lay_out.prop(WData, "anim", text="Animated")

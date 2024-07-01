@@ -125,7 +125,7 @@ def update_WBox (wData):
         centered=wData.cent
     )
 
-# add object W_Plane
+# add object W_Box
 class Make_WBox(bpy.types.Operator):
     """Create primitive wBox"""
     bl_idname = "mesh.make_wbox"
@@ -133,7 +133,7 @@ class Make_WBox(bpy.types.Operator):
     bl_options = {'UNDO', 'REGISTER'}
 
     size_x: FloatProperty(
-        name = "Width (X)",
+        name = "Size X",
         description = "Size of the WBox",
         default = 2.0,
         min = 0.0,
@@ -143,7 +143,7 @@ class Make_WBox(bpy.types.Operator):
     )
 
     size_y: FloatProperty(
-        name = "Length (Y)",
+        name = "Y",
         description = "Size of the WBox",
         default = 2.0,
         min = 0.0,
@@ -153,7 +153,7 @@ class Make_WBox(bpy.types.Operator):
     )
 
     size_z: FloatProperty(
-        name = "Height (Z)",
+        name = "Z",
         description = "Size of the WBox",
         default = 2.0,
         min = 0.0,
@@ -172,7 +172,7 @@ class Make_WBox(bpy.types.Operator):
     )
 
     seg_y: IntProperty(
-        name = "Segments Y",
+        name = "Y",
         description = "Segmentation of the WBox",
         default = 1,
         min = 1,
@@ -181,7 +181,7 @@ class Make_WBox(bpy.types.Operator):
     )
 
     seg_z: IntProperty(
-        name = "Segments Z",
+        name = "Z",
         description = "Segmentation of the WBox",
         default = 1,
         min = 1,
@@ -218,6 +218,7 @@ class Make_WBox(bpy.types.Operator):
         wD.cent = self.centered
         wD.wType = 'WBOX'
         return {'FINISHED'}
+
 # create UI panel
 def draw_WBox_panel(self, context):
     lay_out = self.layout
@@ -232,7 +233,7 @@ def draw_WBox_panel(self, context):
     col.prop(WData, "siz_z", text="Z")
     
     col = lay_out.column(align=True)
-    col.prop(WData, "seg_1", text="Segmentation X")
+    col.prop(WData, "seg_1", text="Segments X")
     col.prop(WData, "seg_2", text="Y")
     col.prop(WData, "seg_3", text="Z")
 
