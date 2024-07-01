@@ -22,6 +22,7 @@ from .genFunctions import (
     bridgeLoops,
     create_mesh_object
 )
+from .addon import is_41
 
 # generate geometry
 def geoGen_WTube (
@@ -344,15 +345,15 @@ class Make_WTube(bpy.types.Operator):
     )
 
     centered: BoolProperty(
-        name="Centered",
-        description="Set origin of the cylinder",
-        default=True
+        name = "Centered",
+        description = "Set origin of the cylinder",
+        default = True
     )
 
     smoothed: BoolProperty(
-        name="Smooth",
-        description="Set origin of the cylinder",
-        default=True
+        name = "Smooth shading",
+        description = "Smooth shading",
+        default = (not is_41())
     )
 
     def execute(self, context):
@@ -379,9 +380,14 @@ class Make_WTube(bpy.types.Operator):
         
         object_utils.object_data_add(context, mesh, operator=None)
 
-        bpy.ops.object.shade_smooth()
-        context.object.data.use_auto_smooth = True
-        context.object.data.auto_smooth_angle = 1.0
+        if self.smoothed:
+            bpy.ops.object.shade_smooth()
+            if is_41():
+                pass
+            else:
+                context.object.data.use_auto_smooth = True
+                context.object.data.auto_smooth_angle = 1.0
+
         return {'FINISHED'}
 
 # create UI panel

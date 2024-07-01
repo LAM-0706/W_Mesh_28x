@@ -24,6 +24,7 @@ from .genFunctions import (
     bridgeLoops
 )
 from .W_Bases import baseHedron
+from .addon import is_41
 
 
 def primitive_UVSphere(
@@ -186,9 +187,9 @@ class Make_WSphere(bpy.types.Operator):
     )
 
     smoothed: BoolProperty(
-        name="Smooth",
-        description="Smooth shading",
-        default=True
+        name = "Smooth shading",
+        description = "Smooth shading",
+        default = (not is_41())
     )
 
     tris: BoolProperty(
@@ -217,9 +218,14 @@ class Make_WSphere(bpy.types.Operator):
         
         object_utils.object_data_add(context, mesh, operator=None)
 
-        bpy.ops.object.shade_smooth()
-        context.object.data.use_auto_smooth = True
-        context.object.data.auto_smooth_angle = 1.0
+        if self.smoothed:
+            bpy.ops.object.shade_smooth()
+            if is_41():
+                pass
+            else:
+                context.object.data.use_auto_smooth = True
+                context.object.data.auto_smooth_angle = 1.0
+
         return {'FINISHED'}
 
 # create UI panel

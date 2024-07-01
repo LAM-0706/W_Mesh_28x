@@ -22,6 +22,7 @@ from .genFunctions import (
     bridgeLoops,
     create_mesh_object
 )
+from .addon import is_41
 
 # generate geometry
 def geoGen_WCone (
@@ -200,6 +201,12 @@ class Make_WCone(bpy.types.Operator):
         default = False
     )
 
+    smoothed: BoolProperty(
+        name = "Smooth shading",
+        description = "Smooth shading",
+        default = (not is_41())
+    )
+
     def execute(self, context):
 
         mesh = bpy.data.meshes.new("wCone")
@@ -212,7 +219,7 @@ class Make_WCone(bpy.types.Operator):
         wD.seg_2 = self.seg_height
         wD.seg_3 = self.seg_radius
         wD.cent = self.centered
-        wD.smo = True
+        wD.smo = self.smoothed
         wD.wType = 'WCONE'
 
 
@@ -221,9 +228,14 @@ class Make_WCone(bpy.types.Operator):
         
         object_utils.object_data_add(context, mesh, operator=None)
 
-        bpy.ops.object.shade_smooth()
-        context.object.data.use_auto_smooth = True
-        context.object.data.auto_smooth_angle = 1.0
+        if self.smoothed:
+            bpy.ops.object.shade_smooth()
+            if is_41():
+                pass
+            else:
+                context.object.data.use_auto_smooth = True
+                context.object.data.auto_smooth_angle = 1.0
+
         return {'FINISHED'}
 
 # create UI panel

@@ -22,6 +22,7 @@ from .genFunctions import (
     bridgeLoops,
     create_mesh_object
 )
+from .addon import is_41
 
 # generate geometry
 def geoGen_WRing (
@@ -164,24 +165,24 @@ class Make_WRing(bpy.types.Operator):
 
     sector_from: FloatProperty(
         name="From",
-        description="Setor from",
+        description="Sector from",
         default=0.0,
         min=0.0,
         soft_min=0.0,
-        max = 2 * pi,
-        soft_max = 2 * pi,
+        max=2 * pi,
+        soft_max=2 * pi,
         step=10,
         unit='ROTATION'
     )
 
     sector_to: FloatProperty(
-        name="From",
-        description="Setor from",
+        name="To",
+        description="Sector to",
         default=2 * pi,
         min=0.0,
         soft_min=0.0,
-        max = 2 * pi,
-        soft_max = 2 * pi,
+        max=2 * pi,
+        soft_max=2 * pi,
         step=10,
         unit='ROTATION'
     )
@@ -207,7 +208,11 @@ class Make_WRing(bpy.types.Operator):
         object_utils.object_data_add(context, mesh, operator=None)
 
         bpy.ops.object.shade_smooth()
-        context.object.data.use_auto_smooth = True
+        if is_41():
+            pass
+        else:
+            context.object.data.use_auto_smooth = True
+
         return {'FINISHED'}
 
 # create UI panel

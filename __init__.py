@@ -8,7 +8,7 @@ bl_info = {
         "name": "W_Mesh_28x",
         "category": "Object",
         "author": "Vit Prochazka",
-        "version": (1, 0),
+        "version": (1, 0, 2),
         "blender": (2, 80, 0),
         "description": "Modify primitives after creation.",
         "warning": "Unexpected bugs can be expected!"
